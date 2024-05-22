@@ -13,27 +13,25 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as IndexImport } from './routes/index'
+import { Route as DashboardIndexImport } from './routes/dashboard/index'
 
 // Create Virtual Routes
 
-const IndexLazyImport = createFileRoute('/')()
-const DashboardIndexLazyImport = createFileRoute('/dashboard/')()
 const AuthLoginLazyImport = createFileRoute('/auth/login')()
 const DashboardLabsIndexLazyImport = createFileRoute('/dashboard/labs/')()
 
 // Create/Update Routes
 
-const IndexLazyRoute = IndexLazyImport.update({
+const IndexRoute = IndexImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+} as any)
 
-const DashboardIndexLazyRoute = DashboardIndexLazyImport.update({
+const DashboardIndexRoute = DashboardIndexImport.update({
   path: '/dashboard/',
   getParentRoute: () => rootRoute,
-} as any).lazy(() =>
-  import('./routes/dashboard/index.lazy').then((d) => d.Route),
-)
+} as any)
 
 const AuthLoginLazyRoute = AuthLoginLazyImport.update({
   path: '/auth/login',
@@ -55,7 +53,7 @@ declare module '@tanstack/react-router' {
       id: '/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexLazyImport
+      preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
     '/auth/login': {
@@ -69,7 +67,7 @@ declare module '@tanstack/react-router' {
       id: '/dashboard/'
       path: '/dashboard'
       fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardIndexLazyImport
+      preLoaderRoute: typeof DashboardIndexImport
       parentRoute: typeof rootRoute
     }
     '/dashboard/labs/': {
@@ -85,9 +83,9 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 export const routeTree = rootRoute.addChildren({
-  IndexLazyRoute,
+  IndexRoute,
   AuthLoginLazyRoute,
-  DashboardIndexLazyRoute,
+  DashboardIndexRoute,
   DashboardLabsIndexLazyRoute,
 })
 

@@ -1,3 +1,4 @@
+import { login } from "@/api/auth";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -9,8 +10,26 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useGlobalStore } from "@/store/globalStore";
+import { useMutation } from "@tanstack/react-query";
+import { useState } from "react";
 
 export function LoginForm() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const setToken = useGlobalStore((state) => state.setAuthToken);
+
+  const { mutate } = useMutation({
+    mutationFn: () => login({ username, password }),
+    onSuccess: (data) => {
+      if (data.token === "access_token") {
+        setToken(data.token);
+        localStorage.setItem("access_token", data.token);
+      }
+    },
+  });
+
   return (
     <Card className="w-full max-w-sm">
       <CardHeader>
@@ -22,15 +41,30 @@ export function LoginForm() {
       <CardContent className="grid gap-4">
         <div className="grid gap-2">
           <Label htmlFor="email">Email</Label>
-          <Input id="email" type="email" placeholder="m@example.com" required />
+          <Input
+            id="username"
+            type="text"
+            placeholder="Username"
+            required
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
         </div>
         <div className="grid gap-2">
           <Label htmlFor="password">Password</Label>
-          <Input id="password" type="password" required />
+          <Input
+            id="password"
+            type="password"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
         </div>
       </CardContent>
       <CardFooter>
-        <Button className="w-full">Sign in</Button>
+        <Button className="w-full" onClick={() => mutate()}>
+          Sign in
+        </Button>
       </CardFooter>
     </Card>
   );
