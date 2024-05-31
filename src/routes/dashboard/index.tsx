@@ -1,4 +1,5 @@
 import { Dashboard } from "@/components/layouts/DashBoardLayout";
+import DashboardPage from "@/components/pages/DashboardPage";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/dashboard/")({
@@ -14,7 +15,7 @@ export const Route = createFileRoute("/dashboard/")({
   },
   component: () => (
     <Dashboard>
-      <div>Home Route</div>
+      <DashboardPage />
     </Dashboard>
   ),
 });
