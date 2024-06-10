@@ -1,33 +1,31 @@
-import { User } from "@/store/types"
+import { User } from "@/api/types/user"
+import instance from "../instance"
 
 export type LoginInput = {
     username: string
     password: string
 }
 export async function login(input: LoginInput) {
-    if (input.username === "username" && input.password === "password") {
-        return {
-            token: "access_token",
-        }
-    }
-    return {
-        token: null
+    try {
+        const res = await instance.post<{ access_token: string, user: User }>("/auth/login", input)
+        return res.data
+    } catch (error) {
+        console.log(error)
     }
 }
 
-export async function getMe() {
-    const token = localStorage.getItem('access_token')
-
-    const sampleUser: User = {
-        first_name: "crook",
-        last_name: "pimppu",
-        profile: "https://wallpapers.com/images/featured/cool-profile-picture-87h46gcobjl5e4xu.jpg",
-        role: ["ADMIN"]
+export async function refresh() {
+    try {
+        const res = await instance.post<{ access_token: string, user: User }>("/auth/refresh")
+        return res.data
+    } catch (error) {
+        console.log(error);
     }
+}
 
-    if (token === "access_token") {
-        return sampleUser
-    } else {
-        return null
-    }
+
+
+export async function logout() {
+    const res = await instance.post<{ success: boolean }>("/auth/logout")
+    return res.data
 }

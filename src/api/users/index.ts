@@ -1,7 +1,7 @@
-import { Product } from "@/components/tables/items/columns";
+import instance from "../instance";
 
 export async function getUsers() {
-    const res = await fetch("https://jsonplaceholder.typicode.com/users")
-    const data = await res.json() as Product[]
+    const res = await instance.get("/users")
+    const data = res.data
     return data
 }

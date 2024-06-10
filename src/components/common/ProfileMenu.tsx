@@ -7,12 +7,22 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "../ui/button";
-import { useQueryClient } from "@tanstack/react-query";
-import { fullName } from "@/lib/helpers";
-import { User } from "@/store/types";
+import { useAuthContext } from "@/store/AuthContext";
+import { useNavigate } from "@tanstack/react-router";
 
 const ProfileMenu = () => {
-  const user = useQueryClient().getQueryData(["get_me"]) as User;
+  const { user, logoutUser } = useAuthContext();
+  const navigate = useNavigate();
+
+  const logout = async () => {
+    const res = await logoutUser();
+
+    if (res) {
+      await navigate({
+        to: "/login",
+      });
+    }
+  };
 
   return (
     <DropdownMenu>
@@ -22,18 +32,16 @@ const ProfileMenu = () => {
           size="icon"
           className="overflow-hidden rounded-full"
         >
-          <img src={user?.profile} alt="profile image" />
+          {/* <img src={user?.profile} alt="profile image" /> */}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuLabel>
-          {fullName(user.first_name, user.last_name)}
-        </DropdownMenuLabel>
+        <DropdownMenuLabel>{user?.full_name}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem>Settings</DropdownMenuItem>
         <DropdownMenuItem>Support</DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Logout</DropdownMenuItem>
+        <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

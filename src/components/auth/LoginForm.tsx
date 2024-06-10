@@ -10,22 +10,30 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useGlobalStore } from "@/store/globalStore";
+import { useAuthContext } from "@/store/AuthContext";
 import { useMutation } from "@tanstack/react-query";
+import { getRouteApi, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 
 export function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const setToken = useGlobalStore((state) => state.setAuthToken);
+  const { setAccessToken, setUser } = useAuthContext();
+
+  const routeApi = getRouteApi("/login");
+  const search = routeApi.useSearch();
+  const navigate = useNavigate();
 
   const { mutate } = useMutation({
     mutationFn: () => login({ username, password }),
     onSuccess: (data) => {
-      if (data.token === "access_token") {
-        setToken(data.token);
-        localStorage.setItem("access_token", data.token);
+      if (data?.access_token) {
+        setAccessToken(data.access_token);
+        setUser(data.user);
+        navigate({
+          to: search.redirect || "/dashboard",
+        });
       }
     },
   });

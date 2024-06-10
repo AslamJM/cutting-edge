@@ -1,10 +1,16 @@
 // Import the generated route tree
 import { routeTree } from "./routeTree.gen";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
-import { useGlobalStore } from "./store/globalStore";
+import { useAuthContext } from "./store/AuthContext";
+import LoadingPage from "./components/pages/LoadingPage";
 
 // Create a new router instance
-const router = createRouter({ routeTree, context: { user: null } });
+const router = createRouter({
+  routeTree,
+  context: {
+    auth: undefined!,
+  },
+});
 
 // Register the router instance for type safety
 declare module "@tanstack/react-router" {
@@ -14,10 +20,13 @@ declare module "@tanstack/react-router" {
 }
 
 const App = () => {
-  const token = useGlobalStore((state) => state.authToken);
-  console.log(token);
+  const state = useAuthContext();
 
-  return <RouterProvider router={router} context={{ user: token }} />;
+  if (state.authLoading) {
+    return <LoadingPage />;
+  }
+
+  return <RouterProvider router={router} context={{ auth: state }} />;
 };
 
 export default App;
