@@ -16,6 +16,8 @@ import { Route as AuthImport } from './routes/_auth'
 import { Route as IndexImport } from './routes/index'
 import { Route as AuthUsersImport } from './routes/_auth.users'
 import { Route as AuthDashboardImport } from './routes/_auth.dashboard'
+import { Route as AuthUsersIndexImport } from './routes/_auth.users.index'
+import { Route as AuthUsersCreateImport } from './routes/_auth.users.create'
 
 // Create/Update Routes
 
@@ -42,6 +44,16 @@ const AuthUsersRoute = AuthUsersImport.update({
 const AuthDashboardRoute = AuthDashboardImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthRoute,
+} as any)
+
+const AuthUsersIndexRoute = AuthUsersIndexImport.update({
+  path: '/',
+  getParentRoute: () => AuthUsersRoute,
+} as any)
+
+const AuthUsersCreateRoute = AuthUsersCreateImport.update({
+  path: '/create',
+  getParentRoute: () => AuthUsersRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -83,6 +95,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthUsersImport
       parentRoute: typeof AuthImport
     }
+    '/_auth/users/create': {
+      id: '/_auth/users/create'
+      path: '/create'
+      fullPath: '/users/create'
+      preLoaderRoute: typeof AuthUsersCreateImport
+      parentRoute: typeof AuthUsersImport
+    }
+    '/_auth/users/': {
+      id: '/_auth/users/'
+      path: '/'
+      fullPath: '/users/'
+      preLoaderRoute: typeof AuthUsersIndexImport
+      parentRoute: typeof AuthUsersImport
+    }
   }
 }
 
@@ -90,7 +116,13 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren({
   IndexRoute,
-  AuthRoute: AuthRoute.addChildren({ AuthDashboardRoute, AuthUsersRoute }),
+  AuthRoute: AuthRoute.addChildren({
+    AuthDashboardRoute,
+    AuthUsersRoute: AuthUsersRoute.addChildren({
+      AuthUsersCreateRoute,
+      AuthUsersIndexRoute,
+    }),
+  }),
   LoginRoute,
 })
 

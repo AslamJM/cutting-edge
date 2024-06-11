@@ -8,7 +8,7 @@ const UsersListPage = () => {
   return (
     <div>
       <h3>Users</h3>
-      {data && <UserTable users={data} />}
+      {Array.isArray(data) && <UserTable users={data} />}
     </div>
   );
 };

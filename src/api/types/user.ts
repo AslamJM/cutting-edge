@@ -25,3 +25,30 @@ export type User = {
     role_id: number;
     role: Role
 }
+
+export type CreateRole = {
+    name: string
+    description: string
+    rolePermissions: {
+        create: CreateRolePermisson[]
+    }
+}
+
+export type CreateRolePermisson = {
+    resource: string;
+    can_create: boolean;
+    can_view: boolean;
+    can_edit: boolean;
+    can_delete: boolean;
+}
+
+export type CreateUserInput = {
+    full_name: string;
+    username: string;
+    password: string;
+    email: string;
+    phone: string;
+    role: {
+        create: CreateRole
+    }
+}
