@@ -15,9 +15,20 @@ import { Route as LoginImport } from './routes/login'
 import { Route as AuthImport } from './routes/_auth'
 import { Route as IndexImport } from './routes/index'
 import { Route as AuthUsersImport } from './routes/_auth.users'
+import { Route as AuthSuppliersImport } from './routes/_auth.suppliers'
+import { Route as AuthPurchaseOrdersImport } from './routes/_auth.purchase-orders'
+import { Route as AuthProductsImport } from './routes/_auth.products'
 import { Route as AuthDashboardImport } from './routes/_auth.dashboard'
 import { Route as AuthUsersIndexImport } from './routes/_auth.users.index'
+import { Route as AuthSuppliersIndexImport } from './routes/_auth.suppliers.index'
+import { Route as AuthPurchaseOrdersIndexImport } from './routes/_auth.purchase-orders.index'
+import { Route as AuthProductsIndexImport } from './routes/_auth.products.index'
 import { Route as AuthUsersCreateImport } from './routes/_auth.users.create'
+import { Route as AuthProductsUnitImport } from './routes/_auth.products.unit'
+import { Route as AuthProductsCreateImport } from './routes/_auth.products.create'
+import { Route as AuthProductsCategoryImport } from './routes/_auth.products.category'
+import { Route as AuthProductsBrandsImport } from './routes/_auth.products.brands'
+import { Route as AuthProductsIdImport } from './routes/_auth.products.$id'
 
 // Create/Update Routes
 
@@ -41,6 +52,21 @@ const AuthUsersRoute = AuthUsersImport.update({
   getParentRoute: () => AuthRoute,
 } as any)
 
+const AuthSuppliersRoute = AuthSuppliersImport.update({
+  path: '/suppliers',
+  getParentRoute: () => AuthRoute,
+} as any)
+
+const AuthPurchaseOrdersRoute = AuthPurchaseOrdersImport.update({
+  path: '/purchase-orders',
+  getParentRoute: () => AuthRoute,
+} as any)
+
+const AuthProductsRoute = AuthProductsImport.update({
+  path: '/products',
+  getParentRoute: () => AuthRoute,
+} as any)
+
 const AuthDashboardRoute = AuthDashboardImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthRoute,
@@ -51,9 +77,49 @@ const AuthUsersIndexRoute = AuthUsersIndexImport.update({
   getParentRoute: () => AuthUsersRoute,
 } as any)
 
+const AuthSuppliersIndexRoute = AuthSuppliersIndexImport.update({
+  path: '/',
+  getParentRoute: () => AuthSuppliersRoute,
+} as any)
+
+const AuthPurchaseOrdersIndexRoute = AuthPurchaseOrdersIndexImport.update({
+  path: '/',
+  getParentRoute: () => AuthPurchaseOrdersRoute,
+} as any)
+
+const AuthProductsIndexRoute = AuthProductsIndexImport.update({
+  path: '/',
+  getParentRoute: () => AuthProductsRoute,
+} as any)
+
 const AuthUsersCreateRoute = AuthUsersCreateImport.update({
   path: '/create',
   getParentRoute: () => AuthUsersRoute,
+} as any)
+
+const AuthProductsUnitRoute = AuthProductsUnitImport.update({
+  path: '/unit',
+  getParentRoute: () => AuthProductsRoute,
+} as any)
+
+const AuthProductsCreateRoute = AuthProductsCreateImport.update({
+  path: '/create',
+  getParentRoute: () => AuthProductsRoute,
+} as any)
+
+const AuthProductsCategoryRoute = AuthProductsCategoryImport.update({
+  path: '/category',
+  getParentRoute: () => AuthProductsRoute,
+} as any)
+
+const AuthProductsBrandsRoute = AuthProductsBrandsImport.update({
+  path: '/brands',
+  getParentRoute: () => AuthProductsRoute,
+} as any)
+
+const AuthProductsIdRoute = AuthProductsIdImport.update({
+  path: '/$id',
+  getParentRoute: () => AuthProductsRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -88,6 +154,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthDashboardImport
       parentRoute: typeof AuthImport
     }
+    '/_auth/products': {
+      id: '/_auth/products'
+      path: '/products'
+      fullPath: '/products'
+      preLoaderRoute: typeof AuthProductsImport
+      parentRoute: typeof AuthImport
+    }
+    '/_auth/purchase-orders': {
+      id: '/_auth/purchase-orders'
+      path: '/purchase-orders'
+      fullPath: '/purchase-orders'
+      preLoaderRoute: typeof AuthPurchaseOrdersImport
+      parentRoute: typeof AuthImport
+    }
+    '/_auth/suppliers': {
+      id: '/_auth/suppliers'
+      path: '/suppliers'
+      fullPath: '/suppliers'
+      preLoaderRoute: typeof AuthSuppliersImport
+      parentRoute: typeof AuthImport
+    }
     '/_auth/users': {
       id: '/_auth/users'
       path: '/users'
@@ -95,12 +182,68 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthUsersImport
       parentRoute: typeof AuthImport
     }
+    '/_auth/products/$id': {
+      id: '/_auth/products/$id'
+      path: '/$id'
+      fullPath: '/products/$id'
+      preLoaderRoute: typeof AuthProductsIdImport
+      parentRoute: typeof AuthProductsImport
+    }
+    '/_auth/products/brands': {
+      id: '/_auth/products/brands'
+      path: '/brands'
+      fullPath: '/products/brands'
+      preLoaderRoute: typeof AuthProductsBrandsImport
+      parentRoute: typeof AuthProductsImport
+    }
+    '/_auth/products/category': {
+      id: '/_auth/products/category'
+      path: '/category'
+      fullPath: '/products/category'
+      preLoaderRoute: typeof AuthProductsCategoryImport
+      parentRoute: typeof AuthProductsImport
+    }
+    '/_auth/products/create': {
+      id: '/_auth/products/create'
+      path: '/create'
+      fullPath: '/products/create'
+      preLoaderRoute: typeof AuthProductsCreateImport
+      parentRoute: typeof AuthProductsImport
+    }
+    '/_auth/products/unit': {
+      id: '/_auth/products/unit'
+      path: '/unit'
+      fullPath: '/products/unit'
+      preLoaderRoute: typeof AuthProductsUnitImport
+      parentRoute: typeof AuthProductsImport
+    }
     '/_auth/users/create': {
       id: '/_auth/users/create'
       path: '/create'
       fullPath: '/users/create'
       preLoaderRoute: typeof AuthUsersCreateImport
       parentRoute: typeof AuthUsersImport
+    }
+    '/_auth/products/': {
+      id: '/_auth/products/'
+      path: '/'
+      fullPath: '/products/'
+      preLoaderRoute: typeof AuthProductsIndexImport
+      parentRoute: typeof AuthProductsImport
+    }
+    '/_auth/purchase-orders/': {
+      id: '/_auth/purchase-orders/'
+      path: '/'
+      fullPath: '/purchase-orders/'
+      preLoaderRoute: typeof AuthPurchaseOrdersIndexImport
+      parentRoute: typeof AuthPurchaseOrdersImport
+    }
+    '/_auth/suppliers/': {
+      id: '/_auth/suppliers/'
+      path: '/'
+      fullPath: '/suppliers/'
+      preLoaderRoute: typeof AuthSuppliersIndexImport
+      parentRoute: typeof AuthSuppliersImport
     }
     '/_auth/users/': {
       id: '/_auth/users/'
@@ -118,6 +261,20 @@ export const routeTree = rootRoute.addChildren({
   IndexRoute,
   AuthRoute: AuthRoute.addChildren({
     AuthDashboardRoute,
+    AuthProductsRoute: AuthProductsRoute.addChildren({
+      AuthProductsIdRoute,
+      AuthProductsBrandsRoute,
+      AuthProductsCategoryRoute,
+      AuthProductsCreateRoute,
+      AuthProductsUnitRoute,
+      AuthProductsIndexRoute,
+    }),
+    AuthPurchaseOrdersRoute: AuthPurchaseOrdersRoute.addChildren({
+      AuthPurchaseOrdersIndexRoute,
+    }),
+    AuthSuppliersRoute: AuthSuppliersRoute.addChildren({
+      AuthSuppliersIndexRoute,
+    }),
     AuthUsersRoute: AuthUsersRoute.addChildren({
       AuthUsersCreateRoute,
       AuthUsersIndexRoute,

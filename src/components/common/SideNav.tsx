@@ -42,14 +42,13 @@ const SideNav = () => {
         <Tooltip>
           <TooltipTrigger asChild>
             <Link
-              href="#"
+              to="/purchase-orders"
               className="flex items-center justify-center transition-colors rounded-lg h-9 w-9 bg-accent text-accent-foreground hover:text-foreground md:h-8 md:w-8"
             >
               <ShoppingCart className="w-5 h-5" />
-              <span className="sr-only">Orders</span>
             </Link>
           </TooltipTrigger>
-          <TooltipContent side="right">Orders</TooltipContent>
+          <TooltipContent side="right">Purchase Orders</TooltipContent>
         </Tooltip>
         <Tooltip>
           <TooltipTrigger asChild>
@@ -66,7 +65,7 @@ const SideNav = () => {
         <Tooltip>
           <TooltipTrigger asChild>
             <Link
-              href="#"
+              to="/products"
               className="flex items-center justify-center transition-colors rounded-lg h-9 w-9 text-muted-foreground hover:text-foreground md:h-8 md:w-8"
             >
               <Package className="w-5 h-5" />
@@ -78,14 +77,13 @@ const SideNav = () => {
         <Tooltip>
           <TooltipTrigger asChild>
             <Link
-              href="#"
+              to="/suppliers"
               className="flex items-center justify-center transition-colors rounded-lg h-9 w-9 text-muted-foreground hover:text-foreground md:h-8 md:w-8"
             >
               <Users2 className="w-5 h-5" />
-              <span className="sr-only">Customers</span>
             </Link>
           </TooltipTrigger>
-          <TooltipContent side="right">Customers</TooltipContent>
+          <TooltipContent side="right">Suppliers</TooltipContent>
         </Tooltip>
         <Tooltip>
           <TooltipTrigger asChild>

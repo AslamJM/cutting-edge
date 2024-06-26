@@ -1,11 +1,5 @@
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -55,7 +49,7 @@ const UserCreateForm = () => {
     mutationFn: createUser,
     onSuccess: (data) => {
       if (data) {
-        qc.setQueryData(["users"], (old) => {
+        qc.setQueryData(["users"], (old: unknown) => {
           if (Array.isArray(old)) {
             return [...old, data];
           }
@@ -92,7 +86,7 @@ const UserCreateForm = () => {
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form className="space-y-6">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <FormField
                 control={form.control}
@@ -177,20 +171,18 @@ const UserCreateForm = () => {
                 )}
               />
             </div>
+            <Button type="submit">
+              {isPending ? (
+                <>
+                  <Loader2 className="mr-2 animate-spin" /> "Creating"
+                </>
+              ) : (
+                "Create"
+              )}
+            </Button>
           </form>
         </Form>
       </CardContent>
-      <CardFooter>
-        <Button onClick={form.handleSubmit(onSubmit)}>
-          {isPending ? (
-            <>
-              <Loader2 className="mr-2 animate-spin" /> "Creating"
-            </>
-          ) : (
-            "Create"
-          )}
-        </Button>
-      </CardFooter>
     </Card>
   );
 };
