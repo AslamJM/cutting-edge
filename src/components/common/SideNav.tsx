@@ -1,10 +1,10 @@
 import {
   Home,
-  LineChart,
   Package,
   Package2,
   Settings,
   ShoppingCart,
+  StoreIcon,
   User,
   Users2,
 } from "lucide-react";
@@ -88,14 +88,14 @@ const SideNav = () => {
         <Tooltip>
           <TooltipTrigger asChild>
             <Link
-              href="#"
+              to="/stores"
               className="flex items-center justify-center transition-colors rounded-lg h-9 w-9 text-muted-foreground hover:text-foreground md:h-8 md:w-8"
             >
-              <LineChart className="w-5 h-5" />
-              <span className="sr-only">Analytics</span>
+              <StoreIcon className="w-5 h-5" />
+              <span className="sr-only">Stores</span>
             </Link>
           </TooltipTrigger>
-          <TooltipContent side="right">Analytics</TooltipContent>
+          <TooltipContent side="right">Stores</TooltipContent>
         </Tooltip>
       </nav>
       <nav className="flex flex-col items-center gap-4 px-2 mt-auto sm:py-5">
