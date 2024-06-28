@@ -3,7 +3,7 @@ import StoreList from "@/components/stores/StoreList";
 import { Separator } from "@radix-ui/react-dropdown-menu";
 import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/_auth/stores/")({
+export const Route = createFileRoute("/_auth/store/")({
   component: StoresPage,
 });
 

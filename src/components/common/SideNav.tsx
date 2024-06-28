@@ -1,4 +1,5 @@
 import {
+  GitPullRequestCreate,
   Home,
   Package,
   Package2,
@@ -88,7 +89,7 @@ const SideNav = () => {
         <Tooltip>
           <TooltipTrigger asChild>
             <Link
-              to="/stores"
+              to="/store"
               className="flex items-center justify-center transition-colors rounded-lg h-9 w-9 text-muted-foreground hover:text-foreground md:h-8 md:w-8"
             >
               <StoreIcon className="w-5 h-5" />
@@ -96,6 +97,17 @@ const SideNav = () => {
             </Link>
           </TooltipTrigger>
           <TooltipContent side="right">Stores</TooltipContent>
+        </Tooltip>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Link
+              to="/transfer-requests"
+              className="flex items-center justify-center transition-colors rounded-lg h-9 w-9 text-muted-foreground hover:text-foreground md:h-8 md:w-8"
+            >
+              <GitPullRequestCreate className="w-5 h-5" />
+            </Link>
+          </TooltipTrigger>
+          <TooltipContent side="right">Transfer Requests</TooltipContent>
         </Tooltip>
       </nav>
       <nav className="flex flex-col items-center gap-4 px-2 mt-auto sm:py-5">

@@ -28,7 +28,7 @@ import { createPurchaseOrder } from "@/api/purchase-orders";
 import { useProductSelectStore } from "@/store/productSelectStore";
 
 const CreatePOform = () => {
-  const [date, setDate] = useState<Date>(new Date());
+  const [date, setDate] = useState<Date>();
   const [status, setStatus] = useState<PurchaseOrderStatus>("PENDING");
   const [supplier, setSupplier] = useState("");
 
@@ -52,7 +52,7 @@ const CreatePOform = () => {
 
   const create = () => {
     const input: CreatePOinput = {
-      order_date: date.toISOString(),
+      order_date: date!.toISOString(),
       order_status: status,
       supplier_id: Number(supplier),
       purchase_order_details: {

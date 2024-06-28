@@ -211,7 +211,7 @@ const AddGoods = ({ product }: { product: Product }) => {
                         <PopoverContent className="w-auto p-0">
                           <Calendar
                             mode="single"
-                            selected={field.value}
+                            selected={new Date(field.value)}
                             onSelect={field.onChange}
                             initialFocus
                           />

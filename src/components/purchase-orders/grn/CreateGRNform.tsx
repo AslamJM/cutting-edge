@@ -6,7 +6,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import AddGoods from "./AddGoods";
-import { PurchaseOrder } from "@/api/types/purchase-order";
+import { GRNcreateInput, PurchaseOrder } from "@/api/types/purchase-order";
 import { Button } from "@/components/ui/button";
 
 import {
@@ -20,9 +20,36 @@ import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
 import { useState } from "react";
 import { Label } from "@/components/ui/label";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createGRN } from "@/api/purchase-orders/grn";
+import { useGRNcreateStore } from "@/store/grnCreateStore";
 
 const CreateGRNform = ({ po }: { po: PurchaseOrder }) => {
-  const [date, setDate] = useState<Date>(new Date());
+  const [date, setDate] = useState<Date>();
+
+  const { clear, products } = useGRNcreateStore();
+
+  const qc = useQueryClient();
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: createGRN,
+    onSuccess: () => {
+      setDate(new Date());
+      clear();
+      qc.invalidateQueries({
+        queryKey: ["single_po", po.id],
+      });
+    },
+  });
+
+  const create = () => {
+    const input: GRNcreateInput = {
+      recieved_date: date!.toISOString(),
+      purchase_order_id: po.id,
+      details: products,
+    };
+    mutate(input);
+  };
 
   return (
     <Card>
@@ -60,7 +87,11 @@ const CreateGRNform = ({ po }: { po: PurchaseOrder }) => {
             </PopoverContent>
           </Popover>
         </div>
-        <Button>Create Good Recieved Note</Button>
+        <div>
+          <Button onClick={() => create()}>
+            {isPending ? "Creating..." : "Create Good Recieved Note"}
+          </Button>
+        </div>
       </CardFooter>
     </Card>
   );

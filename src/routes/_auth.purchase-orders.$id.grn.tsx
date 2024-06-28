@@ -1,4 +1,5 @@
 import CreateGRNform from "@/components/purchase-orders/grn/CreateGRNform";
+import GRNDetails from "@/components/purchase-orders/grn/GRNDetails";
 import { singlePurchaseOrderQO } from "@/query/purchase-orders";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
@@ -18,7 +19,11 @@ function CreateGRNPage() {
   if (data && data.data) {
     return (
       <div>
-        <CreateGRNform po={data.data} />
+        {data.data.grn ? (
+          <GRNDetails grn={data.data.grn} />
+        ) : (
+          <CreateGRNform po={data.data} />
+        )}
       </div>
     );
   }

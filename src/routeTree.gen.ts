@@ -15,17 +15,20 @@ import { Route as LoginImport } from './routes/login'
 import { Route as AuthImport } from './routes/_auth'
 import { Route as IndexImport } from './routes/index'
 import { Route as AuthUsersImport } from './routes/_auth.users'
+import { Route as AuthTransferRequestsImport } from './routes/_auth.transfer-requests'
 import { Route as AuthSuppliersImport } from './routes/_auth.suppliers'
-import { Route as AuthStoresImport } from './routes/_auth.stores'
+import { Route as AuthStoreImport } from './routes/_auth.store'
 import { Route as AuthPurchaseOrdersImport } from './routes/_auth.purchase-orders'
 import { Route as AuthProductsImport } from './routes/_auth.products'
 import { Route as AuthDashboardImport } from './routes/_auth.dashboard'
 import { Route as AuthUsersIndexImport } from './routes/_auth.users.index'
 import { Route as AuthSuppliersIndexImport } from './routes/_auth.suppliers.index'
-import { Route as AuthStoresIndexImport } from './routes/_auth.stores.index'
+import { Route as AuthStoreIndexImport } from './routes/_auth.store.index'
 import { Route as AuthPurchaseOrdersIndexImport } from './routes/_auth.purchase-orders.index'
 import { Route as AuthProductsIndexImport } from './routes/_auth.products.index'
 import { Route as AuthUsersCreateImport } from './routes/_auth.users.create'
+import { Route as AuthStoreTransferRequestsImport } from './routes/_auth.store.transfer-requests'
+import { Route as AuthStoreIdImport } from './routes/_auth.store.$id'
 import { Route as AuthPurchaseOrdersCreateImport } from './routes/_auth.purchase-orders.create'
 import { Route as AuthPurchaseOrdersIdImport } from './routes/_auth.purchase-orders.$id'
 import { Route as AuthProductsUnitImport } from './routes/_auth.products.unit'
@@ -33,7 +36,11 @@ import { Route as AuthProductsCreateImport } from './routes/_auth.products.creat
 import { Route as AuthProductsCategoryImport } from './routes/_auth.products.category'
 import { Route as AuthProductsBrandsImport } from './routes/_auth.products.brands'
 import { Route as AuthProductsIdImport } from './routes/_auth.products.$id'
+import { Route as AuthStoreIdIndexImport } from './routes/_auth.store.$id.index'
+import { Route as AuthStoreIdTransferRequestsImport } from './routes/_auth.store.$id.transfer-requests'
+import { Route as AuthStoreIdProductImport } from './routes/_auth.store.$id.$product'
 import { Route as AuthPurchaseOrdersIdGrnImport } from './routes/_auth.purchase-orders.$id.grn'
+import { Route as AuthStoreIdTransferRequestsCreateImport } from './routes/_auth.store.$id.transfer-requests.create'
 
 // Create/Update Routes
 
@@ -57,13 +64,18 @@ const AuthUsersRoute = AuthUsersImport.update({
   getParentRoute: () => AuthRoute,
 } as any)
 
+const AuthTransferRequestsRoute = AuthTransferRequestsImport.update({
+  path: '/transfer-requests',
+  getParentRoute: () => AuthRoute,
+} as any)
+
 const AuthSuppliersRoute = AuthSuppliersImport.update({
   path: '/suppliers',
   getParentRoute: () => AuthRoute,
 } as any)
 
-const AuthStoresRoute = AuthStoresImport.update({
-  path: '/stores',
+const AuthStoreRoute = AuthStoreImport.update({
+  path: '/store',
   getParentRoute: () => AuthRoute,
 } as any)
 
@@ -92,9 +104,9 @@ const AuthSuppliersIndexRoute = AuthSuppliersIndexImport.update({
   getParentRoute: () => AuthSuppliersRoute,
 } as any)
 
-const AuthStoresIndexRoute = AuthStoresIndexImport.update({
+const AuthStoreIndexRoute = AuthStoreIndexImport.update({
   path: '/',
-  getParentRoute: () => AuthStoresRoute,
+  getParentRoute: () => AuthStoreRoute,
 } as any)
 
 const AuthPurchaseOrdersIndexRoute = AuthPurchaseOrdersIndexImport.update({
@@ -110,6 +122,16 @@ const AuthProductsIndexRoute = AuthProductsIndexImport.update({
 const AuthUsersCreateRoute = AuthUsersCreateImport.update({
   path: '/create',
   getParentRoute: () => AuthUsersRoute,
+} as any)
+
+const AuthStoreTransferRequestsRoute = AuthStoreTransferRequestsImport.update({
+  path: '/transfer-requests',
+  getParentRoute: () => AuthStoreRoute,
+} as any)
+
+const AuthStoreIdRoute = AuthStoreIdImport.update({
+  path: '/$id',
+  getParentRoute: () => AuthStoreRoute,
 } as any)
 
 const AuthPurchaseOrdersCreateRoute = AuthPurchaseOrdersCreateImport.update({
@@ -147,10 +169,32 @@ const AuthProductsIdRoute = AuthProductsIdImport.update({
   getParentRoute: () => AuthProductsRoute,
 } as any)
 
+const AuthStoreIdIndexRoute = AuthStoreIdIndexImport.update({
+  path: '/',
+  getParentRoute: () => AuthStoreIdRoute,
+} as any)
+
+const AuthStoreIdTransferRequestsRoute =
+  AuthStoreIdTransferRequestsImport.update({
+    path: '/transfer-requests',
+    getParentRoute: () => AuthStoreIdRoute,
+  } as any)
+
+const AuthStoreIdProductRoute = AuthStoreIdProductImport.update({
+  path: '/$product',
+  getParentRoute: () => AuthStoreIdRoute,
+} as any)
+
 const AuthPurchaseOrdersIdGrnRoute = AuthPurchaseOrdersIdGrnImport.update({
   path: '/grn',
   getParentRoute: () => AuthPurchaseOrdersIdRoute,
 } as any)
+
+const AuthStoreIdTransferRequestsCreateRoute =
+  AuthStoreIdTransferRequestsCreateImport.update({
+    path: '/create',
+    getParentRoute: () => AuthStoreIdTransferRequestsRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -198,11 +242,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthPurchaseOrdersImport
       parentRoute: typeof AuthImport
     }
-    '/_auth/stores': {
-      id: '/_auth/stores'
-      path: '/stores'
-      fullPath: '/stores'
-      preLoaderRoute: typeof AuthStoresImport
+    '/_auth/store': {
+      id: '/_auth/store'
+      path: '/store'
+      fullPath: '/store'
+      preLoaderRoute: typeof AuthStoreImport
       parentRoute: typeof AuthImport
     }
     '/_auth/suppliers': {
@@ -210,6 +254,13 @@ declare module '@tanstack/react-router' {
       path: '/suppliers'
       fullPath: '/suppliers'
       preLoaderRoute: typeof AuthSuppliersImport
+      parentRoute: typeof AuthImport
+    }
+    '/_auth/transfer-requests': {
+      id: '/_auth/transfer-requests'
+      path: '/transfer-requests'
+      fullPath: '/transfer-requests'
+      preLoaderRoute: typeof AuthTransferRequestsImport
       parentRoute: typeof AuthImport
     }
     '/_auth/users': {
@@ -268,6 +319,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthPurchaseOrdersCreateImport
       parentRoute: typeof AuthPurchaseOrdersImport
     }
+    '/_auth/store/$id': {
+      id: '/_auth/store/$id'
+      path: '/$id'
+      fullPath: '/store/$id'
+      preLoaderRoute: typeof AuthStoreIdImport
+      parentRoute: typeof AuthStoreImport
+    }
+    '/_auth/store/transfer-requests': {
+      id: '/_auth/store/transfer-requests'
+      path: '/transfer-requests'
+      fullPath: '/store/transfer-requests'
+      preLoaderRoute: typeof AuthStoreTransferRequestsImport
+      parentRoute: typeof AuthStoreImport
+    }
     '/_auth/users/create': {
       id: '/_auth/users/create'
       path: '/create'
@@ -289,12 +354,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthPurchaseOrdersIndexImport
       parentRoute: typeof AuthPurchaseOrdersImport
     }
-    '/_auth/stores/': {
-      id: '/_auth/stores/'
+    '/_auth/store/': {
+      id: '/_auth/store/'
       path: '/'
-      fullPath: '/stores/'
-      preLoaderRoute: typeof AuthStoresIndexImport
-      parentRoute: typeof AuthStoresImport
+      fullPath: '/store/'
+      preLoaderRoute: typeof AuthStoreIndexImport
+      parentRoute: typeof AuthStoreImport
     }
     '/_auth/suppliers/': {
       id: '/_auth/suppliers/'
@@ -316,6 +381,34 @@ declare module '@tanstack/react-router' {
       fullPath: '/purchase-orders/$id/grn'
       preLoaderRoute: typeof AuthPurchaseOrdersIdGrnImport
       parentRoute: typeof AuthPurchaseOrdersIdImport
+    }
+    '/_auth/store/$id/$product': {
+      id: '/_auth/store/$id/$product'
+      path: '/$product'
+      fullPath: '/store/$id/$product'
+      preLoaderRoute: typeof AuthStoreIdProductImport
+      parentRoute: typeof AuthStoreIdImport
+    }
+    '/_auth/store/$id/transfer-requests': {
+      id: '/_auth/store/$id/transfer-requests'
+      path: '/transfer-requests'
+      fullPath: '/store/$id/transfer-requests'
+      preLoaderRoute: typeof AuthStoreIdTransferRequestsImport
+      parentRoute: typeof AuthStoreIdImport
+    }
+    '/_auth/store/$id/': {
+      id: '/_auth/store/$id/'
+      path: '/'
+      fullPath: '/store/$id/'
+      preLoaderRoute: typeof AuthStoreIdIndexImport
+      parentRoute: typeof AuthStoreIdImport
+    }
+    '/_auth/store/$id/transfer-requests/create': {
+      id: '/_auth/store/$id/transfer-requests/create'
+      path: '/create'
+      fullPath: '/store/$id/transfer-requests/create'
+      preLoaderRoute: typeof AuthStoreIdTransferRequestsCreateImport
+      parentRoute: typeof AuthStoreIdTransferRequestsImport
     }
   }
 }
@@ -341,10 +434,22 @@ export const routeTree = rootRoute.addChildren({
       AuthPurchaseOrdersCreateRoute,
       AuthPurchaseOrdersIndexRoute,
     }),
-    AuthStoresRoute: AuthStoresRoute.addChildren({ AuthStoresIndexRoute }),
+    AuthStoreRoute: AuthStoreRoute.addChildren({
+      AuthStoreIdRoute: AuthStoreIdRoute.addChildren({
+        AuthStoreIdProductRoute,
+        AuthStoreIdTransferRequestsRoute:
+          AuthStoreIdTransferRequestsRoute.addChildren({
+            AuthStoreIdTransferRequestsCreateRoute,
+          }),
+        AuthStoreIdIndexRoute,
+      }),
+      AuthStoreTransferRequestsRoute,
+      AuthStoreIndexRoute,
+    }),
     AuthSuppliersRoute: AuthSuppliersRoute.addChildren({
       AuthSuppliersIndexRoute,
     }),
+    AuthTransferRequestsRoute,
     AuthUsersRoute: AuthUsersRoute.addChildren({
       AuthUsersCreateRoute,
       AuthUsersIndexRoute,

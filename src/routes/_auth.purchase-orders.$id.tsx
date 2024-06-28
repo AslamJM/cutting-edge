@@ -26,7 +26,9 @@ function SinglePOpage() {
         <div className="w-1/2 p-4">
           <h3>Good Recieve Note</h3>
           <Button>
-            <Link to={`/purchase-orders/${po.id}/grn/`}>Create GRN</Link>
+            <Link to={`/purchase-orders/${po.id}/grn/`}>
+              {po.grn ? "GRN Details" : "Create GRN"}
+            </Link>
           </Button>
           <div>
             <Outlet />

@@ -9,6 +9,8 @@ import {
   TableHeader,
   TableRow,
 } from "../ui/table";
+import { Button } from "../ui/button";
+import { Link } from "@tanstack/react-router";
 
 const StoreList = () => {
   const { data, isLoading } = useQuery(storeQO);
@@ -35,7 +37,11 @@ const StoreList = () => {
                 {data &&
                   data.data.map((st) => (
                     <TableRow key={st.id}>
-                      <TableCell>{st.name}</TableCell>
+                      <TableCell>
+                        <Button variant="link">
+                          <Link to={`/store/${st.id}`}>{st.name}</Link>
+                        </Button>
+                      </TableCell>
                       <TableCell>{st.location}</TableCell>
                       <TableCell>{st.contact_info}</TableCell>
                     </TableRow>

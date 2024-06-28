@@ -20,11 +20,11 @@ const BreadCrumbsComp = () => {
   return (
     <Breadcrumb className="hidden md:flex">
       <BreadcrumbList>
-        {links.map((l) => (
+        {links.map((l, i) => (
           <React.Fragment key={l}>
             <BreadcrumbItem>
               <BreadcrumbLink asChild>
-                <Link to={`/${l}`}>{l}</Link>
+                <Link to={`${links.slice(0, i).join("/")}/${l}`}>{l}</Link>
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
