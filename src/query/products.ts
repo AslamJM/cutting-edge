@@ -1,6 +1,6 @@
 import { getAllBrands } from "@/api/products/brands";
 import { getAllGategories } from "@/api/products/category";
-import { getAllProducts } from "@/api/products/products";
+import { getAllProducts, getBatches } from "@/api/products/products";
 import { getAllUnits } from "@/api/products/units";
 import { queryOptions } from "@tanstack/react-query";
 
@@ -25,4 +25,8 @@ export const productsQO = queryOptions({
 
 })
 
+export const batchesQO = (id: number) => queryOptions({
+    queryKey: ["batches", id],
+    queryFn: () => getBatches(id)
+})
 

@@ -1,3 +1,4 @@
+import { Product } from "./product"
 import { Store } from "./store"
 
 export type TransferRequestStatus = "PENDING" | "SHIPPED" | "RECIEVED" | "CANCELLED"
@@ -17,6 +18,28 @@ export type TransferRequstInput = {
     }
 }
 
+export type TransferGoodDetails = {
+    id: number
+    grn_detail_id: number
+    returned_quantity: number
+    accepted_quantity: number
+
+}
+
+export type TransferRequest = {
+    id: number;
+    from_store: Store;
+    to_store: Store;
+    request_date: string;
+    transfer_status: TransferRequestStatus;
+    transfer_request_details: {
+        id: number
+        product: Product
+        requested_quantity: number
+        good_details: TransferGoodDetails[]
+    }[]
+}
+
 export type StoreTRresponse = {
     from: {
         id: number
@@ -32,4 +55,10 @@ export type StoreTRresponse = {
         from_store: Store
 
     }[]
+}
+export type ShipTRinput = {
+    transfer_request_details_id: number
+    grn_detail_id: number
+    returned_quantity: number
+    accepted_quantity: number
 }

@@ -13,7 +13,7 @@ function StoreIndex() {
   const { id } = Route.useParams();
   const { data, isLoading } = useQuery(storeDetailsQO(id));
   return (
-    <div>
+    <div className="space-y-4">
       <Button>
         <Link to={`/store/${id}/transfer-requests`}>Transfer Requests</Link>
         <ArrowRight className="ml-2" />

@@ -39,3 +39,17 @@ export async function getSingleProduct(id: string) {
         }
     }
 }
+
+export async function getBatches(id: number) {
+    try {
+        const res = await instance.get<{
+            data: Array<{
+                id: number,
+                batch_number: string
+            }>
+        }>(`/products/${id}/batch`)
+        return res.data
+    } catch (error) {
+        return { data: [] }
+    }
+}

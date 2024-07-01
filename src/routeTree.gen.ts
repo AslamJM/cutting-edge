@@ -41,6 +41,7 @@ import { Route as AuthStoreIdTransferRequestsImport } from './routes/_auth.store
 import { Route as AuthStoreIdProductImport } from './routes/_auth.store.$id.$product'
 import { Route as AuthPurchaseOrdersIdGrnImport } from './routes/_auth.purchase-orders.$id.grn'
 import { Route as AuthStoreIdTransferRequestsCreateImport } from './routes/_auth.store.$id.transfer-requests.create'
+import { Route as AuthStoreIdTransferRequestsTridImport } from './routes/_auth.store.$id.transfer-requests.$trid'
 
 // Create/Update Routes
 
@@ -193,6 +194,12 @@ const AuthPurchaseOrdersIdGrnRoute = AuthPurchaseOrdersIdGrnImport.update({
 const AuthStoreIdTransferRequestsCreateRoute =
   AuthStoreIdTransferRequestsCreateImport.update({
     path: '/create',
+    getParentRoute: () => AuthStoreIdTransferRequestsRoute,
+  } as any)
+
+const AuthStoreIdTransferRequestsTridRoute =
+  AuthStoreIdTransferRequestsTridImport.update({
+    path: '/$trid',
     getParentRoute: () => AuthStoreIdTransferRequestsRoute,
   } as any)
 
@@ -403,6 +410,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthStoreIdIndexImport
       parentRoute: typeof AuthStoreIdImport
     }
+    '/_auth/store/$id/transfer-requests/$trid': {
+      id: '/_auth/store/$id/transfer-requests/$trid'
+      path: '/$trid'
+      fullPath: '/store/$id/transfer-requests/$trid'
+      preLoaderRoute: typeof AuthStoreIdTransferRequestsTridImport
+      parentRoute: typeof AuthStoreIdTransferRequestsImport
+    }
     '/_auth/store/$id/transfer-requests/create': {
       id: '/_auth/store/$id/transfer-requests/create'
       path: '/create'
@@ -439,6 +453,7 @@ export const routeTree = rootRoute.addChildren({
         AuthStoreIdProductRoute,
         AuthStoreIdTransferRequestsRoute:
           AuthStoreIdTransferRequestsRoute.addChildren({
+            AuthStoreIdTransferRequestsTridRoute,
             AuthStoreIdTransferRequestsCreateRoute,
           }),
         AuthStoreIdIndexRoute,
