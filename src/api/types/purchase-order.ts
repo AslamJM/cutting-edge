@@ -28,8 +28,9 @@ export type PurchaseOrderTable = {
 }
 
 export type GRNdetail = {
-    product: Product,
-    store: Store,
+    product: Product
+    store: Store
+    product_id: number
     batch_number: string
     quantity: number
     sample_quantity: number

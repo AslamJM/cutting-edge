@@ -6,10 +6,15 @@ export type GrnSelect = {
   returned_quantity: number;
 };
 
+type ReturnUpdate = {
+  key: number;
+  grn_detail_id: number;
+};
+
 interface State {
   grnDetails: Map<number, GrnSelect[]>;
+  updatedKeys: ReturnUpdate[];
 }
-
 type InitType = {
   key: number;
   details: GrnSelect[];
@@ -18,15 +23,19 @@ type InitType = {
 type Action = {
   addNew: (input: InitType[]) => void;
   pushOne: (key: number) => void;
-  updateOne: (key: number, index: number, detail: GrnSelect) => void;
+  updateOne: (key: number, index: number, detail: Partial<GrnSelect>) => void;
   removeOne: (key: number, index: number) => void;
   clearTransferDetail: (key: number) => void;
   clearAll: () => void;
   getOne: (key: number, index: number) => GrnSelect | undefined;
+
+  addToUpdated: (key: ReturnUpdate) => void;
+  removeUpdated: (key: ReturnUpdate) => void;
 };
 
 export const usegrnSelectStore = create<State & Action>((set) => ({
   grnDetails: new Map(),
+  updatedKeys: [],
   addNew: (input) =>
     set(({ grnDetails }) => {
       input.forEach((inp) => grnDetails.set(inp.key, inp.details));
@@ -63,7 +72,7 @@ export const usegrnSelectStore = create<State & Action>((set) => ({
     set(({ grnDetails }) => {
       const data = grnDetails.get(key);
       if (data) {
-        data[index] = details;
+        data[index] = { ...data[index], ...details };
         grnDetails.set(key, data);
       }
       return {
@@ -76,12 +85,25 @@ export const usegrnSelectStore = create<State & Action>((set) => ({
       grnDetails.set(id, []);
       return { grnDetails };
     }),
-  clearAll: () => set(() => ({ grnDetails: new Map() })),
+  clearAll: () => set(() => ({ grnDetails: new Map(), updatedKeys: [] })),
 
   getOne(key, index) {
     const stored = this.grnDetails.get(key);
-    console.log(stored);
-
     if (stored) return stored[index];
   },
+
+  addToUpdated: (key) =>
+    set(({ updatedKeys }) => {
+      if (updatedKeys.some((k) => k.grn_detail_id === key.grn_detail_id)) {
+        return { updatedKeys };
+      }
+      updatedKeys.push(key);
+      return { updatedKeys };
+    }),
+  removeUpdated: (key) =>
+    set(({ updatedKeys }) => ({
+      updatedKeys: updatedKeys.filter(
+        (k) => k.grn_detail_id !== key.grn_detail_id
+      ),
+    })),
 }));

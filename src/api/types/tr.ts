@@ -1,4 +1,5 @@
 import { Product } from "./product"
+import { GRNdetail } from "./purchase-order"
 import { Store } from "./store"
 
 export type TransferRequestStatus = "PENDING" | "SHIPPED" | "RECIEVED" | "CANCELLED"
@@ -23,6 +24,7 @@ export type TransferGoodDetails = {
     grn_detail_id: number
     returned_quantity: number
     accepted_quantity: number
+    grn_detail: GRNdetail
 
 }
 

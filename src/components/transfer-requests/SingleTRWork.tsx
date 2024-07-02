@@ -17,6 +17,8 @@ import { Button } from "../ui/button";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { shipTr } from "@/api/tr";
 import { Loader2 } from "lucide-react";
+import ShippedTransferDetails from "./ShippedTransferDetails";
+import AcceptGoodInfo from "./AcceptGoodInfo";
 
 interface SingleTRWorkProps {
   tr: TransferRequest;
@@ -39,7 +41,8 @@ const SingleTRWork: FC<SingleTRWorkProps> = ({ tr }) => {
   });
 
   const store = from_store.id === +storeId ? to_store : from_store;
-  const type = store.id === +storeId ? "To" : "From";
+
+  const type = to_store.id === +storeId ? "To" : "From";
   const qc = useQueryClient();
 
   const { addNew, clearAll, grnDetails } = usegrnSelectStore();
@@ -103,19 +106,40 @@ const SingleTRWork: FC<SingleTRWorkProps> = ({ tr }) => {
         <Label>{type}</Label>
         <p>{store.name}</p>
         <div className="space-y-2">
-          {transfer_request_details.map((tr) => (
-            <TrDetails key={tr.id} details={tr} type={type} />
-          ))}
+          {transfer_request_details.map((trd) => {
+            if (transfer_status === "PENDING") {
+              if (type === "From") {
+                return <TrDetails key={tr.id} details={trd} type={type} />;
+              }
+              return (
+                <div className="text-sm text-muted-foreground">
+                  No response from {from_store.name}
+                </div>
+              );
+            }
+            if (
+              transfer_status === "SHIPPED" ||
+              transfer_status === "RECIEVED"
+            ) {
+              return (
+                <ShippedTransferDetails key={tr.id} details={trd} type={type} />
+              );
+            }
+          })}
         </div>
       </CardContent>
       <CardFooter>
-        {type === "From" ? (
-          <Button onClick={() => mutate()}>
-            {isPending && <Loader2 className="mr-2" />}
-            {goods ? "Update Transfer Request" : "Transfer Requested Goods"}
-          </Button>
+        {transfer_status === "PENDING" ? (
+          type == "From" ? (
+            <Button onClick={() => mutate()}>
+              {isPending && <Loader2 className="mr-2" />}
+              {goods ? "Update Transfer Request" : "Transfer Requested Goods"}
+            </Button>
+          ) : (
+            <></>
+          )
         ) : (
-          <Button>Accept Goods</Button>
+          <>{type === "To" ? <AcceptGoodInfo tr={tr} /> : <></>}</>
         )}
       </CardFooter>
     </Card>

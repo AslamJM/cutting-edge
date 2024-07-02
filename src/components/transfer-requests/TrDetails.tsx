@@ -29,8 +29,6 @@ const TrDetails: FC<TrDetailsProps> = ({ details, type }) => {
 
   const batches = grnDetails.get(id);
 
-  console.log(grnDetails);
-
   return (
     <div className="space-y-4">
       <div className="grid grid-cols-2 gap-4">
