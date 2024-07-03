@@ -60,6 +60,7 @@ const SingleShippedItem: FC<SingleShippedItemProps> = ({
               value={rtamount}
               onChange={(e) => setRtamount(+e.target.value)}
               className="w-32"
+              type="number"
             />
             <Button size="icon" variant="ghost" onClick={() => onUpdate()}>
               <Check className="w-4 h-4" />

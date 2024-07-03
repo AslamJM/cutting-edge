@@ -43,3 +43,18 @@ export async function shipTr(trId: number, input: ShipTRinput[]) {
         return error
     }
 }
+
+export async function acceptTr(trId: number, input: ShipTRinput[]) {
+    try {
+        const res = await instance.post(`/transfer-requests/${trId}/accept`, {
+            details: input
+        })
+        console.log(res.data);
+
+        return res.data
+    } catch (error) {
+        console.log(error);
+
+        return error
+    }
+}

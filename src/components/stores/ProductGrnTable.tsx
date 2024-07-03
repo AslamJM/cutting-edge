@@ -12,7 +12,6 @@ import { format } from "date-fns";
 const tableheaders = [
   "Batch No",
   "Quantity",
-  "Sample",
   "Buying",
   "Selling",
   "Expiry Date",
@@ -33,7 +32,6 @@ const ProductGrnTable = ({ grns }: { grns: GRNdetailInput[] }) => {
           <TableRow key={grn.batch_number}>
             <TableCell>{grn.batch_number}</TableCell>
             <TableCell>{grn.quantity}</TableCell>
-            <TableCell>{grn.sample_quantity}</TableCell>
             <TableCell>{grn.buying_price}</TableCell>
             <TableCell>{grn.selling_price}</TableCell>
             <TableCell>{format(grn.expiry_date, "PPP")}</TableCell>

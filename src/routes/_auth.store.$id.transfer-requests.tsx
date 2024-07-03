@@ -19,11 +19,9 @@ function StoreTransferRequestPage() {
     <div>
       {!location.pathname.endsWith("create") && (
         <div>
-          <Button>
-            <Link to={`/store/${id}/transfer-requests/create`}>
-              Create Transfer Request
-            </Link>
-          </Button>
+          <Link to={`/store/${id}/transfer-requests/create`} className="mb-2">
+            <Button variant="outline">Create Transfer Request</Button>
+          </Link>
         </div>
       )}
       <Outlet />

@@ -1,8 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { productsQO } from "@/query/products";
-import { Link } from "@tanstack/react-router";
-import { Separator } from "../ui/separator";
+import ProductDataTable from "../tables/products/ProductDataTable";
 
 const ProductList = () => {
   const { data, isLoading } = useQuery(productsQO);
@@ -16,16 +15,7 @@ const ProductList = () => {
         {isLoading ? (
           "Loading"
         ) : (
-          <>
-            {data &&
-              data.data.map((pr) => (
-                <div key={pr.id} className="flex items-center gap-4 my-2">
-                  <Link to={`/products/${pr.id}`}>{pr.product_name}</Link>
-                  <Separator orientation="vertical" />
-                  <h4>{pr.product_number}</h4>
-                </div>
-              ))}
-          </>
+          <>{data && data.data && <ProductDataTable products={data.data} />}</>
         )}
       </CardContent>
     </Card>

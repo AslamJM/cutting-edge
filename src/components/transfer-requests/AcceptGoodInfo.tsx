@@ -3,12 +3,20 @@ import { Table, TableBody, TableCell, TableRow } from "../ui/table";
 import SimpleTableHeder from "../tables/common/SimpleTableHeder";
 import { Button } from "../ui/button";
 import { useCallback } from "react";
-import { TransferRequest } from "@/api/types/tr";
+import { ShipTRinput, TransferRequest } from "@/api/types/tr";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { acceptTr } from "@/api/tr";
+import { Loader2 } from "lucide-react";
+import { useParams } from "@tanstack/react-router";
 
 const AcceptGoodInfo = ({ tr }: { tr: TransferRequest }) => {
-  console.log(tr);
+  const { grnDetails, updatedKeys, clearAll } = usegrnSelectStore();
 
-  const { grnDetails, updatedKeys } = usegrnSelectStore();
+  const { id: storeId } = useParams({
+    from: "/_auth/store/$id/transfer-requests/$trid",
+  });
+
+  const qc = useQueryClient();
 
   const shapeData = useCallback(() => {
     return updatedKeys
@@ -40,6 +48,33 @@ const AcceptGoodInfo = ({ tr }: { tr: TransferRequest }) => {
     }
   };
 
+  const { mutate, isPending } = useMutation({
+    mutationFn: async () => {
+      const input: ShipTRinput[] = [];
+      grnDetails.forEach((v, k) => {
+        v.forEach((dt) => {
+          input.push({
+            accepted_quantity: dt.accepted_quantity,
+            returned_quantity: dt.returned_quantity,
+            grn_detail_id: dt.grn_detail_id!,
+            transfer_request_details_id: k,
+          });
+        });
+      });
+
+      await acceptTr(tr.id, input);
+    },
+    onSuccess: () => {
+      clearAll();
+      qc.invalidateQueries({
+        queryKey: ["single_tr", tr.id],
+      });
+      qc.invalidateQueries({
+        queryKey: ["store_trs", +storeId],
+      });
+    },
+  });
+
   return (
     <div>
       <p>Retruns Info</p>
@@ -60,7 +95,15 @@ const AcceptGoodInfo = ({ tr }: { tr: TransferRequest }) => {
           )}
         </TableBody>
       </Table>
-      <Button className="mt-2">Accept Goods</Button>
+      <Button className="mt-2" onClick={() => mutate()}>
+        {isPending ? (
+          <>
+            <Loader2 className="animate-spin" /> Accepting...
+          </>
+        ) : (
+          "Accept Goods"
+        )}
+      </Button>
     </div>
   );
 };

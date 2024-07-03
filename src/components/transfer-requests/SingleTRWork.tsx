@@ -42,7 +42,7 @@ const SingleTRWork: FC<SingleTRWorkProps> = ({ tr }) => {
 
   const store = from_store.id === +storeId ? to_store : from_store;
 
-  const type = to_store.id === +storeId ? "To" : "From";
+  const type = to_store.id === +storeId ? "From" : "To";
   const qc = useQueryClient();
 
   const { addNew, clearAll, grnDetails } = usegrnSelectStore();
@@ -64,8 +64,12 @@ const SingleTRWork: FC<SingleTRWorkProps> = ({ tr }) => {
       await shipTr(id, input);
     },
     onSuccess: () => {
+      clearAll();
       qc.invalidateQueries({
         queryKey: ["single_tr", id],
+      });
+      qc.invalidateQueries({
+        queryKey: ["store_trs", +storeId],
       });
     },
   });
@@ -113,7 +117,7 @@ const SingleTRWork: FC<SingleTRWorkProps> = ({ tr }) => {
               }
               return (
                 <div className="text-sm text-muted-foreground">
-                  No response from {from_store.name}
+                  No response from {store.name}
                 </div>
               );
             }

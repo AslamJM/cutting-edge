@@ -20,6 +20,7 @@ import { useQuery } from "@tanstack/react-query";
 import { storeTRQO } from "@/query/stores";
 import TRListItem from "./TRListItem";
 import TRListItemTo from "./TrListItemTo";
+import SimpleTableHeder from "../tables/common/SimpleTableHeder";
 
 interface StoreDetailProps {
   store: StoreWithProduct;
@@ -29,6 +30,8 @@ const StoreDetail: FC<StoreDetailProps> = ({ store }) => {
   const location = useLocation();
 
   const { data } = useQuery(storeTRQO(store.id));
+
+  console.log(data);
 
   return (
     <div className="space-y-2">
@@ -46,23 +49,33 @@ const StoreDetail: FC<StoreDetailProps> = ({ store }) => {
               <Card>
                 <CardHeader>
                   <CardTitle>Transfer Requests</CardTitle>
-                  <CardDescription>From</CardDescription>
+                  <CardDescription>To</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  {data.data.from.map((d) => (
-                    <TRListItem key={d.id} data={d} />
-                  ))}
+                  <Table>
+                    <SimpleTableHeder heads={["Date", "Store", "Status"]} />
+                    <TableBody>
+                      {data.data.from.map((d) => (
+                        <TRListItem key={d.id} data={d} />
+                      ))}
+                    </TableBody>
+                  </Table>
                 </CardContent>
               </Card>
               <Card>
                 <CardHeader>
                   <CardTitle>Transfer Requests</CardTitle>
-                  <CardDescription>To</CardDescription>
+                  <CardDescription>From</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  {data.data.to.map((d) => (
-                    <TRListItemTo key={d.id} data={d} storeId={store.id} />
-                  ))}
+                  <Table>
+                    <SimpleTableHeder heads={["Date", "Store", "Status"]} />
+                    <TableBody>
+                      {data.data.to.map((d) => (
+                        <TRListItemTo key={d.id} data={d} storeId={store.id} />
+                      ))}
+                    </TableBody>
+                  </Table>
                 </CardContent>
               </Card>
             </div>

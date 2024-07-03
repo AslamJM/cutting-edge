@@ -45,7 +45,7 @@ const CreateProductForm = () => {
       product_number: "",
       description: "",
       image:
-        "https://www.oceanrecovery.com/wp-content/uploads/2023/01/how-long-does-xanax-stay-in-your-system.jpeg",
+        "https://images.theconversation.com/files/515276/original/file-20230314-2595-90gnm9.jpg",
       category_id: "",
       brand_id: "",
       unit_id: "",
