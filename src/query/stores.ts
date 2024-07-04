@@ -1,5 +1,5 @@
-import { getAllStores, getProductGrns, getStoreWithProducts, storeDetails } from "@/api/stores";
-import { getTransferRequestForStore } from "@/api/tr";
+import { getAllStores, getProductGrns, getStoreWithProducts, storeDetails, getStoreTransferRequests } from "@/api/stores";
+import { getTransferRequestForStore, } from "@/api/tr";
 import { queryOptions } from "@tanstack/react-query";
 
 export const storeQO = queryOptions({
@@ -25,4 +25,9 @@ export const storeDetailsQO = (id: string) => queryOptions({
 export const storeTRQO = (id: string | number) => queryOptions({
     queryKey: ["store_trs", id],
     queryFn: () => getTransferRequestForStore(id)
+})
+
+export const trTableQO = (id: string | number) => queryOptions({
+    queryKey: ["store_trs_table", id],
+    queryFn: () => getStoreTransferRequests(id)
 })

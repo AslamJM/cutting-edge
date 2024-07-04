@@ -31,8 +31,6 @@ const StoreDetail: FC<StoreDetailProps> = ({ store }) => {
 
   const { data } = useQuery(storeTRQO(store.id));
 
-  console.log(data);
-
   return (
     <div className="space-y-2">
       <Card>
@@ -48,7 +46,7 @@ const StoreDetail: FC<StoreDetailProps> = ({ store }) => {
             <div className="space-y-2">
               <Card>
                 <CardHeader>
-                  <CardTitle>Transfer Requests</CardTitle>
+                  <CardTitle>Latest Requests</CardTitle>
                   <CardDescription>To</CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -64,7 +62,7 @@ const StoreDetail: FC<StoreDetailProps> = ({ store }) => {
               </Card>
               <Card>
                 <CardHeader>
-                  <CardTitle>Transfer Requests</CardTitle>
+                  <CardTitle>Latest Requests</CardTitle>
                   <CardDescription>From</CardDescription>
                 </CardHeader>
                 <CardContent>

@@ -1,4 +1,7 @@
+import StoreTRdataTable from "@/components/tables/stores/StoreTRdataTable";
 import { Button } from "@/components/ui/button";
+import { trTableQO } from "@/query/stores";
+import { useQuery } from "@tanstack/react-query";
 import {
   createFileRoute,
   Link,
@@ -14,17 +17,26 @@ function StoreTransferRequestPage() {
   const { id } = Route.useParams();
 
   const location = useLocation();
+  const { data: tableData } = useQuery(trTableQO(id));
 
   return (
     <div>
       {!location.pathname.endsWith("create") && (
-        <div>
-          <Link to={`/store/${id}/transfer-requests/create`} className="mb-2">
+        <div className="mb-2">
+          <Link to={`/store/${id}/transfer-requests/create`}>
             <Button variant="outline">Create Transfer Request</Button>
           </Link>
         </div>
       )}
-      <Outlet />
+      {location.pathname.endsWith("transfer-requests") ? (
+        <>
+          {tableData && tableData.data && (
+            <StoreTRdataTable data={tableData.data} />
+          )}
+        </>
+      ) : (
+        <Outlet />
+      )}
     </div>
   );
 }

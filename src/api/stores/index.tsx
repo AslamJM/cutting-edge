@@ -1,5 +1,10 @@
 import instance from "../instance";
-import { ProductGRN, Store, StoreWithProduct } from "../types/store";
+import {
+  ProductGRN,
+  Store,
+  StoreTableTR,
+  StoreWithProduct,
+} from "../types/store";
 
 export async function createStore(input: Omit<Store, "id">) {
   try {
@@ -61,5 +66,18 @@ export async function storeDetails(id: string) {
     return res.data;
   } catch (error) {
     return { data: null };
+  }
+}
+
+export async function getStoreTransferRequests(id: string | number) {
+  try {
+    const res = await instance.get<{
+      data: StoreTableTR;
+    }>(`/stores/${id}/transfer-requests`);
+    return res.data;
+  } catch (error) {
+    return {
+      data: null,
+    };
   }
 }

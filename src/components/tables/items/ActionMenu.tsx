@@ -7,23 +7,35 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useNavigate, useParams } from "@tanstack/react-router";
 import { MoreHorizontal } from "lucide-react";
 
-const ActionMenu = () => {
+const ActionMenu = ({ id }: { id: number }) => {
+  const navigate = useNavigate();
+  const { id: storeId } = useParams({
+    from: "/_auth/store/$id/transfer-requests",
+  });
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="h-8 w-8 p-0">
-          <span className="sr-only">Open menu</span>
-          <MoreHorizontal className="h-4 w-4" />
+        <Button variant="ghost" className="w-8 h-8 p-0">
+          <MoreHorizontal className="w-4 h-4" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-        <DropdownMenuItem onClick={() => {}}>Copy payment ID</DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() =>
+            navigate({
+              to: `/store/${storeId}/transfer-requests/${id}`,
+            })
+          }
+        >
+          View Details
+        </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>View customer</DropdownMenuItem>
-        <DropdownMenuItem>View payment details</DropdownMenuItem>
+        <DropdownMenuItem>Edit</DropdownMenuItem>
+        <DropdownMenuItem>Delete</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
